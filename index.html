@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MGM Student Digital ID Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ================= LEFT FORM ================= -->
+
+    <div class="form-section">
+
+        <h1>MGM Student Digital ID Generator</h1>
+
+        <p>Create your official digital student identity card instantly.</p>
+
+        <form>
+
+            <label>Full Name</label>
+            <input type="text"
+                   id="name"
+                   placeholder="Enter your full name">
+
+            <label>Roll Number</label>
+            <input type="text"
+                   id="roll"
+                   placeholder="Enter Roll Number">
+
+            <label>Department</label>
+
+            <select id="department">
+
+                <option>Computer Science</option>
+                <option>Information Technology</option>
+                <option>Mechanical</option>
+                <option>Civil</option>
+                <option>Electrical</option>
+                <option>Electronics</option>
+
+            </select>
+
+            <label>Date Of Birth</label>
+
+            <input type="date"
+                   id="dob">
+
+            <label>Blood Group</label>
+
+            <select id="blood">
+
+                <option>O+</option>
+                <option>O-</option>
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+
+            </select>
+
+            <label>ABC ID</label>
+
+            <input type="text"
+                   id="abc"
+                   placeholder="Enter ABC ID">
+
+            <label>Email</label>
+
+            <input type="email"
+                   id="email"
+                   placeholder="Enter Email Address">
+
+            <label>Upload Photo</label>
+
+            <input type="file"
+                   id="photo"
+                   accept="image/*">
+
+            <button type="button"
+                    id="generate-btn">
+
+                Generate Digital ID
+
+            </button>
+
+            <button type="button"
+                    id="download-btn">
+
+                Download ID Card
+
+            </button>
+
+        </form>
+
+    </div>
+        <!-- ================= ID CARD ================= -->
+
+    <div class="preview-section">
+
+        <div class="id-card">
+
+            <!-- Header -->
+
+            <div class="card-header">
+
+                <img src="images/Mgm-u-logo.png"
+                     class="college-logo"
+                     alt="MGM Logo">
+
+                <div>
+
+                    <h3>MGM UNIVERSITY</h3>
+
+                    <p>Chhatrapati Sambhajinagar</p>
+
+                </div>
+
+            </div>
+
+            <!-- Student Photo -->
+
+            <div class="card-photo">
+
+                <img src="images/default-user.png"
+                     id="preview-photo"
+                     alt="Student Photo">
+
+            </div>
+
+            <!-- Student Details -->
+
+            <div class="card-details">
+
+                <h2 id="preview-name">
+                    YOUR NAME
+                </h2>
+
+                <p>
+                    <strong>Roll No :</strong>
+                    <span id="preview-roll">-------</span>
+                </p>
+
+                <p>
+                    <strong>Department :</strong>
+                    <span id="preview-department">Computer Science</span>
+                </p>
+
+                <p>
+                    <strong>DOB :</strong>
+                    <span id="preview-dob">01 Jan 2007</span>
+                </p>
+
+                <p>
+                    <strong>Blood Group :</strong>
+                    <span id="preview-blood">O+</span>
+                </p>
+
+             <p>
+
+    <strong>ABC ID :</strong>
+
+    <span id="preview-abc">
+
+        0000-0000-0000
+
+    </span>
+
+</p>
+
+                <p>
+                    <strong>Email :</strong>
+                    <span id="preview-email">
+                        your@email.com
+                    </span>
+                </p>
+
+            </div>
+
+            <!-- Footer -->
+
+            <div class="card-footer">
+
+                Jawaharlal Nehru Engineering College
+
+                <br>
+
+                MGM Campus, N-6, CIDCO
+
+                <br>
+
+                Chhatrapati Sambhajinagar - 431003
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
