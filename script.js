@@ -193,30 +193,39 @@ async function downloadPDF() {
     });
 
     // ---------- PAGE 1 ----------
+  pdf.setDrawColor(200, 200, 200);
+pdf.setLineWidth(0.5);
+
+pdf.roundedRect(
+    54,
+    9,
+    102,
+    158,
+    3,
+    3
+);
+
     pdf.addImage(frontImg, "PNG", 55, 10, 100, 156);
 
     // ---------- PAGE 2 ----------
     pdf.addPage();
+pdf.setDrawColor(200, 200, 200);
+pdf.setLineWidth(0.5);
 
+pdf.roundedRect(
+    54,
+    9,
+    102,
+    158,
+    3,
+    3
+);
     pdf.addImage(backImg, "PNG", 55, 10, 100, 156);
 
     pdf.save((rollInput.value || "Student") + "_ID_Card.pdf");
 }
 
-    // ---------- PAGE 1 ----------
-    
-
-   pdf.addImage(frontImg, "PNG", 55, 10, 100, 156);
-
-   
-    // ---------- PAGE 2 ----------
-    pdf.addPage();
-
-    
-
-   pdf.addImage(frontImg, "PNG", 55, 10, 100, 156);
-
-    pdf.save((rollInput.value || "Student") + "_ID_Card.pdf");
+  
 
 
 
