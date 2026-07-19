@@ -205,6 +205,7 @@ pdf.roundedRect(
     3
 );
 
+
     pdf.addImage(frontImg, "PNG", 55, 10, 100, 156);
 
     // ---------- PAGE 2 ----------
