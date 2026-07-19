@@ -1,132 +1,229 @@
-// =========================================
-// MGM Student Digital ID Generator
-// =========================================
+/* =========================================
+   MGM STUDENT DIGITAL ID GENERATOR
+   PART 1 - LIVE PREVIEW
+========================================= */
 
-// ---------- Input Fields ----------
+// ===== Form Fields =====
 
 const nameInput = document.getElementById("name");
 const rollInput = document.getElementById("roll");
 const departmentInput = document.getElementById("department");
 const dobInput = document.getElementById("dob");
 const bloodInput = document.getElementById("blood");
-const emailInput = document.getElementById("email");
 const abcInput = document.getElementById("abc");
+const emailInput = document.getElementById("email");
+const addressInput = document.getElementById("address");
+const emergencyInput = document.getElementById("emergency");
+const validInput = document.getElementById("valid");
 const photoInput = document.getElementById("photo");
 
-// ---------- Preview ----------
+// ===== Preview Fields =====
 
 const previewName = document.getElementById("preview-name");
 const previewRoll = document.getElementById("preview-roll");
 const previewDepartment = document.getElementById("preview-department");
 const previewDob = document.getElementById("preview-dob");
 const previewBlood = document.getElementById("preview-blood");
-const previewEmail = document.getElementById("preview-email");
 const previewABC = document.getElementById("preview-abc");
+const previewEmail = document.getElementById("preview-email");
+const previewAddress = document.getElementById("preview-address");
+const previewEmergency = document.getElementById("preview-emergency");
+const previewValid = document.getElementById("preview-valid");
+
 const previewPhoto = document.getElementById("preview-photo");
 
-// ---------- Buttons ----------
+// ===== Generate Button =====
 
-const generateBtn = document.getElementById("generate-btn");
-const downloadBtn = document.getElementById("download-btn");
+document
+.getElementById("generate-btn")
+.addEventListener("click", generateCard);
 
-// =========================================
-// Generate ID
-// =========================================
+// ===== Generate Card =====
 
-generateBtn.addEventListener("click", function () {
+function generateCard(){
 
-    // Name
     previewName.textContent =
-        nameInput.value.trim() || "YOUR NAME";
+        nameInput.value || "YOUR NAME";
 
-    // Roll Number
     previewRoll.textContent =
-        rollInput.value.trim() || "-------";
+        rollInput.value || "1250427";
 
-    // Department
     previewDepartment.textContent =
         departmentInput.value;
 
-    // DOB
+    previewBlood.textContent =
+        bloodInput.value;
+
+    previewABC.textContent =
+        abcInput.value || "0000-0000-0000";
+
+    previewEmail.textContent =
+        emailInput.value || "example@email.com";
+
+    previewAddress.textContent =
+        addressInput.value || "Your Address";
+
+    previewEmergency.textContent =
+        emergencyInput.value || "+91 XXXXXXXXXX";
+
+    previewValid.textContent =
+        validInput.value || "2026-2027";
+
+    // Date Format
+
     if(dobInput.value){
 
         const date = new Date(dobInput.value);
 
-        const options = {
-            day:'2-digit',
-            month:'short',
-            year:'numeric'
-        };
-
         previewDob.textContent =
-        date.toLocaleDateString('en-GB',options);
+            date.toLocaleDateString("en-GB");
+
+    }else{
+
+        previewDob.textContent = "01/01/2000";
 
     }
-    else{
 
-        previewDob.textContent="--/--/----";
+}
 
-    }
-
-    // Blood Group
-    previewBlood.textContent =
-        bloodInput.value;
-
-    // Email
-    previewEmail.textContent =
-        emailInput.value.trim() || "your@email.com";
-
-    // ABC ID
-    previewABC.textContent =
-        abcInput.value.trim() || "0000-0000-0000";
-
-});
-
-// =========================================
-// Photo Upload
-// =========================================
+// ===== Photo Upload =====
 
 photoInput.addEventListener("change", function(){
 
-    const file=this.files[0];
+    const file = this.files[0];
 
-    if(file){
+    if(!file) return;
 
-        const reader=new FileReader();
+    const reader = new FileReader();
 
-        reader.onload=function(e){
+    reader.onload = function(e){
 
-            previewPhoto.src=e.target.result;
-
-        };
-
-        reader.readAsDataURL(file);
+        previewPhoto.src = e.target.result;
 
     }
 
+    reader.readAsDataURL(file);
+
+});
+/* =========================================
+   PART 2 - BARCODE + DOWNLOAD + VALIDATION
+========================================= */
+
+// ===== Barcode Function =====
+
+function generateBarcode() {
+
+    const roll = rollInput.value.trim() || "1250427";
+    const abc = abcInput.value.trim().replace(/-/g, "");
+
+    // Create Unique Barcode Value
+    const barcodeValue = abc ? roll + abc.slice(-4) : roll;
+
+    JsBarcode("#barcode", barcodeValue, {
+        format: "CODE128",
+        lineColor: "#000",
+        width: 1.5,
+        height: 42,
+        displayValue: false,
+        margin: 0
+    });
+
+    document.getElementById("barcode-number").textContent = barcodeValue;
+}
+
+
+// ===== Generate Button =====
+
+document.getElementById("generate-btn").addEventListener("click", () => {
+
+    if (nameInput.value.trim() === "") {
+        alert("Please Enter Student Name");
+        nameInput.focus();
+        return;
+    }
+
+    if (rollInput.value.trim() === "") {
+        alert("Please Enter Roll Number");
+        rollInput.focus();
+        return;
+    }
+
+    generateCard();
+    generateBarcode();
+
+    alert("Student ID Generated Successfully!");
+
 });
 
-// =========================================
-// Download ID Card
-// =========================================
 
-downloadBtn.addEventListener("click",function(){
+// ===== Download Front + Back =====
 
-    const card=document.querySelector(".id-card");
 
-    html2canvas(card,{
-        scale:3,
-        useCORS:true
-    }).then(function(canvas){
+document.getElementById("download-btn").addEventListener("click", downloadPDF);
 
-        const link=document.createElement("a");
+async function downloadPDF() {
 
-        link.download="MGM_Student_ID.png";
+    await document.fonts.ready;
+    await new Promise(resolve => setTimeout(resolve, 500));
 
-        link.href=canvas.toDataURL("image/png");
+    const { jsPDF } = window.jspdf;
 
-        link.click();
+    const front = document.getElementById("id-card-front");
+    const back = document.getElementById("id-card-back");
 
+    const frontCanvas = await html2canvas(front,{
+        scale:4,
+        useCORS:true,
+        backgroundColor:"#ffffff"
     });
+
+    const backCanvas = await html2canvas(back,{
+        scale:4,
+        useCORS:true,
+        backgroundColor:"#ffffff"
+    });
+
+    const frontImg = frontCanvas.toDataURL("image/png");
+    const backImg = backCanvas.toDataURL("image/png");
+
+    const pdf = new jsPDF({
+        orientation:"portrait",
+        unit:"mm",
+        format:"a4"
+    });
+
+    // ---------- PAGE 1 ----------
+    pdf.addImage(frontImg, "PNG", 55, 10, 100, 156);
+
+    // ---------- PAGE 2 ----------
+    pdf.addPage();
+
+    pdf.addImage(backImg, "PNG", 55, 10, 100, 156);
+
+    pdf.save((rollInput.value || "Student") + "_ID_Card.pdf");
+}
+
+    // ---------- PAGE 1 ----------
+    
+
+   pdf.addImage(frontImg, "PNG", 55, 10, 100, 156);
+
+   
+    // ---------- PAGE 2 ----------
+    pdf.addPage();
+
+    
+
+   pdf.addImage(frontImg, "PNG", 55, 10, 100, 156);
+
+    pdf.save((rollInput.value || "Student") + "_ID_Card.pdf");
+
+
+
+// ===== Default Barcode on Page Load =====
+
+window.addEventListener("load", () => {
+
+    generateBarcode();
 
 });
